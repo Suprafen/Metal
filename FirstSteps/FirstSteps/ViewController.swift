@@ -20,9 +20,8 @@ class ViewController: UIViewController {
     var mtkView: MTKView {
         return view as! MTKView
     }
-    // MARK: - There should be one device and one command queue per app!
-    var device: MTLDevice!
-    var commandQueue: MTLCommandQueue!
+
+    var renderer: Renderer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,36 +29,13 @@ class ViewController: UIViewController {
     }
 
     private func setup() {
-        let device = MTLCreateSystemDefaultDevice()
-        self.device = device
-        self.view = MTKView(frame: view.frame, device: device)
+        guard let device = MTLCreateSystemDefaultDevice() else { fatalError("Device was not recognized!") }
         
-        mtkView.device = device
+        renderer = Renderer(device: device)
+        
+        self.view = MTKView(frame: view.frame, device: renderer.device)
         
         mtkView.clearColor = Colors.color
-        mtkView.delegate = self
-        // Creating command queue that holds all command buffers
-        commandQueue = self.device.makeCommandQueue()
+        mtkView.delegate = renderer
     }
-}
-
-extension ViewController: MTKViewDelegate {
-    func mtkView(_ view: MTKView, drawableSizeWillChange size: CGSize) { }
-    
-    func draw(in view: MTKView) {
-        guard let drawable = view.currentDrawable,
-              let descriptor = view.currentRenderPassDescriptor else { return }
-        
-        // Creating command buffer that hold all commands
-        let commandBuffer = commandQueue.makeCommandBuffer()
-        // Creating command encoder for all our commands ?? WHAT DOES THAT MEAN????
-        let commandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: descriptor)
-        
-        commandEncoder?.endEncoding()
-        commandBuffer?.present(drawable)
-        commandBuffer?.commit()
-        
-    }
-    
-    
 }
