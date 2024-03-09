@@ -14,9 +14,12 @@ class Renderer: NSObject {
     var commandQueue: MTLCommandQueue?
     
     var vertices: [Float] = [
-        0, 0, 0,
-        -1, -1, 0,
-        1, -1, 0
+         -1,  1, 0,
+         -1, -1, 0,
+          1, -1, 0,
+          1, -1, 0,
+          1,  1, 0,
+         -1,  1, 0
     ]
     
     var pipelineState: MTLRenderPipelineState?
@@ -64,6 +67,7 @@ extension Renderer: MTKViewDelegate {
     func draw(in view: MTKView) {
         guard let drawable = view.currentDrawable,
               let pipelineState,
+              let vertextBuffer,
               let descriptor = view.currentRenderPassDescriptor else { return }
         
         // Creating command buffer that hold all commands
