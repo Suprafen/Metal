@@ -29,6 +29,14 @@ class Renderer: NSObject {
     var vertextBuffer: MTLBuffer?
     var indexBuffer: MTLBuffer?
     
+    struct Constants {
+        var animatedBy: Float = 0.0
+    }
+    
+    var constants = Constants()
+    
+    var time: Float = 0.0
+    
     init(device: MTLDevice) {
         self.device = device
         // Creating command queue that holds all command buffers
@@ -82,9 +90,18 @@ extension Renderer: MTKViewDelegate {
         // Creating command encoder for all our commands ?? WHAT DOES THAT MEAN????
         let commandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: descriptor)
         
+        time += 1 / Float(view.preferredFramesPerSecond)
+        
+        let animateBy = abs(sin(time)/2 + 0.5)
+        constants.animatedBy = animateBy
+        
         commandEncoder?.setRenderPipelineState(pipelineState)
         commandEncoder?.setVertexBuffer(vertextBuffer, offset: 0, index: 0)
 
+        commandEncoder?.setVertexBytes(&constants,
+                                       length: MemoryLayout<Constants>.stride,
+                                       index: 1)
+        
         commandEncoder?.drawIndexedPrimitives(type: .triangle,
                                               indexCount: indices.count,
                                               indexType: .uint16,
