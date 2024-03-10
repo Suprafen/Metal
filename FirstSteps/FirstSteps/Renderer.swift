@@ -14,16 +14,20 @@ class Renderer: NSObject {
     var commandQueue: MTLCommandQueue?
     
     var vertices: [Float] = [
-         -1,  1, 0,
-         -1, -1, 0,
-          1, -1, 0,
-          1, -1, 0,
-          1,  1, 0,
-         -1,  1, 0
+         -1,  1, 0, // v0
+         -1, -1, 0, // v1
+          1, -1, 0, // v2
+          1,  1, 0, // v3
+    ]
+    
+    var indices: [UInt16] = [
+        0, 1, 2,
+        2, 3, 0
     ]
     
     var pipelineState: MTLRenderPipelineState?
     var vertextBuffer: MTLBuffer?
+    var indexBuffer: MTLBuffer?
     
     init(device: MTLDevice) {
         self.device = device
@@ -38,6 +42,10 @@ class Renderer: NSObject {
         vertextBuffer = device.makeBuffer(bytes: vertices,
                                           length: vertices.count * MemoryLayout<Float>.size,
                                           options: [])
+        
+        indexBuffer = device.makeBuffer(bytes: indices,
+                                        length: indices.count * MemoryLayout<Float>.size,
+                                        options: [])
     }
     
     private func buildPipelineState() {
@@ -51,13 +59,11 @@ class Renderer: NSObject {
         pipelineDescriptior.fragmentFunction = fragmentFunction
         pipelineDescriptior.colorAttachments[0].pixelFormat = .bgra8Unorm
         
-        
         do {
             pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptior)
         } catch {
             print("Failed to creat a pipeline state!")
         }
-        
     }
 }
 
@@ -68,6 +74,7 @@ extension Renderer: MTKViewDelegate {
         guard let drawable = view.currentDrawable,
               let pipelineState,
               let vertextBuffer,
+              let indexBuffer,
               let descriptor = view.currentRenderPassDescriptor else { return }
         
         // Creating command buffer that hold all commands
@@ -77,10 +84,12 @@ extension Renderer: MTKViewDelegate {
         
         commandEncoder?.setRenderPipelineState(pipelineState)
         commandEncoder?.setVertexBuffer(vertextBuffer, offset: 0, index: 0)
-        
-        commandEncoder?.drawPrimitives(type: .triangle,
-                                       vertexStart: 0,
-                                       vertexCount: vertices.count)
+
+        commandEncoder?.drawIndexedPrimitives(type: .triangle,
+                                              indexCount: indices.count,
+                                              indexType: .uint16,
+                                              indexBuffer: indexBuffer,
+                                              indexBufferOffset: 0)
         commandEncoder?.endEncoding()
         commandBuffer?.present(drawable)
         commandBuffer?.commit()
