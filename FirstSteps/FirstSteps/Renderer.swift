@@ -102,6 +102,12 @@ extension Renderer: MTKViewDelegate {
                                        length: MemoryLayout<Constants>.stride,
                                        index: 1)
         
+        
+        var green: Float = animateBy
+        
+        let greenBuffer = device.makeBuffer(bytes: &green, length: MemoryLayout<Float>.stride, options: [])
+        
+        commandEncoder?.setFragmentBuffer(greenBuffer, offset: 0, index: 2)
         commandEncoder?.drawIndexedPrimitives(type: .triangle,
                                               indexCount: indices.count,
                                               indexType: .uint16,
