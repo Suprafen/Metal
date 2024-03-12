@@ -32,7 +32,7 @@ class ViewController: UIViewController {
         guard let device = MTLCreateSystemDefaultDevice() else { fatalError("Device was not recognized!") }
         
         renderer = Renderer(device: device)
-        
+        renderer.scene = GameScene(device: device, size: view.bounds.size)
         self.view = MTKView(frame: view.frame, device: renderer.device)
         
         mtkView.clearColor = Colors.color

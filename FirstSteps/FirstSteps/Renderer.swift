@@ -37,23 +37,14 @@ class Renderer: NSObject {
     
     var time: Float = 0.0
     
+    var scene: Scene?
+    
     init(device: MTLDevice) {
         self.device = device
         // Creating command queue that holds all command buffers
         self.commandQueue = self.device.makeCommandQueue()
         super.init()
-        buildModel()
         buildPipelineState()
-    }
-    
-    private func buildModel() {
-        vertextBuffer = device.makeBuffer(bytes: vertices,
-                                          length: vertices.count * MemoryLayout<Float>.size,
-                                          options: [])
-        
-        indexBuffer = device.makeBuffer(bytes: indices,
-                                        length: indices.count * MemoryLayout<Float>.size,
-                                        options: [])
     }
     
     private func buildPipelineState() {
@@ -81,39 +72,20 @@ extension Renderer: MTKViewDelegate {
     func draw(in view: MTKView) {
         guard let drawable = view.currentDrawable,
               let pipelineState,
-              let vertextBuffer,
-              let indexBuffer,
               let descriptor = view.currentRenderPassDescriptor else { return }
         
         // Creating command buffer that hold all commands
         let commandBuffer = commandQueue?.makeCommandBuffer()
         // Creating command encoder for all our commands ?? WHAT DOES THAT MEAN????
-        let commandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: descriptor)
+        guard let commandEncoder = commandBuffer?.makeRenderCommandEncoder(descriptor: descriptor) else { return }
         
-        time += 1 / Float(view.preferredFramesPerSecond)
+        commandEncoder.setRenderPipelineState(pipelineState)
         
-        let animateBy = abs(sin(time)/2 + 0.5)
-        constants.animatedBy = animateBy
+        let deltaTime = 1 / Float(view.preferredFramesPerSecond)
         
-        commandEncoder?.setRenderPipelineState(pipelineState)
-        commandEncoder?.setVertexBuffer(vertextBuffer, offset: 0, index: 0)
-
-        commandEncoder?.setVertexBytes(&constants,
-                                       length: MemoryLayout<Constants>.stride,
-                                       index: 1)
+        scene?.render(commandEncoder: commandEncoder, deltaTime: deltaTime)
         
-        
-        var green: Float = animateBy
-        
-        let greenBuffer = device.makeBuffer(bytes: &green, length: MemoryLayout<Float>.stride, options: [])
-        
-        commandEncoder?.setFragmentBuffer(greenBuffer, offset: 0, index: 2)
-        commandEncoder?.drawIndexedPrimitives(type: .triangle,
-                                              indexCount: indices.count,
-                                              indexType: .uint16,
-                                              indexBuffer: indexBuffer,
-                                              indexBufferOffset: 0)
-        commandEncoder?.endEncoding()
+        commandEncoder.endEncoding()
         commandBuffer?.present(drawable)
         commandBuffer?.commit()
     }

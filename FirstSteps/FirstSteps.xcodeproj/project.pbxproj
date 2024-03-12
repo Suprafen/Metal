@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		E2AF90912B9C559800BB85B1 /* Shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = E2AF90902B9C559800BB85B1 /* Shader.metal */; };
+		E2AF90AD2B9EE30400BB85B1 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AF90AC2B9EE30400BB85B1 /* Node.swift */; };
+		E2AF90AF2B9EE3AF00BB85B1 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AF90AE2B9EE3AF00BB85B1 /* Plane.swift */; };
+		E2AF90B12B9EE5E900BB85B1 /* Scene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AF90B02B9EE5E900BB85B1 /* Scene.swift */; };
+		E2AF90B32B9EE65400BB85B1 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AF90B22B9EE65400BB85B1 /* GameScene.swift */; };
 		E2C1B4942B948FAF00C41BA3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C1B4932B948FAF00C41BA3 /* AppDelegate.swift */; };
 		E2C1B4962B948FAF00C41BA3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C1B4952B948FAF00C41BA3 /* SceneDelegate.swift */; };
 		E2C1B4982B948FAF00C41BA3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2C1B4972B948FAF00C41BA3 /* ViewController.swift */; };
@@ -18,6 +22,10 @@
 
 /* Begin PBXFileReference section */
 		E2AF90902B9C559800BB85B1 /* Shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shader.metal; sourceTree = "<group>"; };
+		E2AF90AC2B9EE30400BB85B1 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
+		E2AF90AE2B9EE3AF00BB85B1 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		E2AF90B02B9EE5E900BB85B1 /* Scene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Scene.swift; sourceTree = "<group>"; };
+		E2AF90B22B9EE65400BB85B1 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		E2C1B4902B948FAF00C41BA3 /* FirstSteps.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirstSteps.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E2C1B4932B948FAF00C41BA3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E2C1B4952B948FAF00C41BA3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -39,6 +47,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E2AF90B62BA0268700BB85B1 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				E2AF90B02B9EE5E900BB85B1 /* Scene.swift */,
+				E2AF90B22B9EE65400BB85B1 /* GameScene.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		E2AF90B72BA0269900BB85B1 /* Nodes */ = {
+			isa = PBXGroup;
+			children = (
+				E2AF90AC2B9EE30400BB85B1 /* Node.swift */,
+				E2AF90AE2B9EE3AF00BB85B1 /* Plane.swift */,
+			);
+			path = Nodes;
+			sourceTree = "<group>";
+		};
 		E2C1B4872B948FAF00C41BA3 = {
 			isa = PBXGroup;
 			children = (
@@ -58,6 +84,8 @@
 		E2C1B4922B948FAF00C41BA3 /* FirstSteps */ = {
 			isa = PBXGroup;
 			children = (
+				E2AF90B72BA0269900BB85B1 /* Nodes */,
+				E2AF90B62BA0268700BB85B1 /* Scenes */,
 				E2C1B4932B948FAF00C41BA3 /* AppDelegate.swift */,
 				E2C1B4952B948FAF00C41BA3 /* SceneDelegate.swift */,
 				E2C1B4972B948FAF00C41BA3 /* ViewController.swift */,
@@ -143,8 +171,12 @@
 				E2C1B4A82B94E1F300C41BA3 /* Renderer.swift in Sources */,
 				E2C1B4982B948FAF00C41BA3 /* ViewController.swift in Sources */,
 				E2C1B4942B948FAF00C41BA3 /* AppDelegate.swift in Sources */,
+				E2AF90B32B9EE65400BB85B1 /* GameScene.swift in Sources */,
+				E2AF90AD2B9EE30400BB85B1 /* Node.swift in Sources */,
+				E2AF90B12B9EE5E900BB85B1 /* Scene.swift in Sources */,
 				E2AF90912B9C559800BB85B1 /* Shader.metal in Sources */,
 				E2C1B4962B948FAF00C41BA3 /* SceneDelegate.swift in Sources */,
+				E2AF90AF2B9EE3AF00BB85B1 /* Plane.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
