@@ -58,6 +58,22 @@ class Renderer: NSObject {
         pipelineDescriptior.fragmentFunction = fragmentFunction
         pipelineDescriptior.colorAttachments[0].pixelFormat = .bgra8Unorm
         
+        let vertextDescriptor = MTLVertexDescriptor()
+        // Describe a position data
+        vertextDescriptor.attributes[0].format = .float3
+        vertextDescriptor.attributes[0].offset = 0
+        vertextDescriptor.attributes[0].bufferIndex = 0
+        // Describe a color attribute
+        vertextDescriptor.attributes[1].format = .float4
+        // The offset is SIMD3<Float> i.e. float3 from the begining
+        // This was the side of the position attribute
+        vertextDescriptor.attributes[1].offset = MemoryLayout<SIMD3<Float>>.stride
+        vertextDescriptor.attributes[1].bufferIndex = 0
+        // Tell the vertext descriptor the size information held for each vertex
+        vertextDescriptor.layouts[0].stride = MemoryLayout<Vertex>.stride
+        
+        pipelineDescriptior.vertexDescriptor = vertextDescriptor
+        
         do {
             pipelineState = try device.makeRenderPipelineState(descriptor: pipelineDescriptior)
         } catch {

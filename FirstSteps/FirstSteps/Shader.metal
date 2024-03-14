@@ -12,18 +12,26 @@ struct Constants {
     float animateBy;
 };
 
+struct VertexIn {
+    float4 position [[ attribute(0)]];
+    float4 color [[ attribute(1)]];
+};
+
+struct VertexOut {
+    float4 position [[ position]];
+    float4 color;
+};
+
 //vertex function
-vertex float4 vertex_shader(const device packed_float3 *vertices [[ buffer(0) ]],
-                            constant Constants &constants [[buffer(1)]],
-                            uint vertexId [[ vertex_id ]]) {
+vertex VertexOut vertex_shader(const VertexIn vertexIn [[ stage_in ]]  ) {
+    VertexOut vertexOut;
+    vertexOut.position = vertexIn.position;
+    vertexOut.color = vertexIn.color;
     
-    float4 position = float4(vertices[vertexId], 1);
-    position.x += constants.animateBy;
-    
-    return position;
+    return vertexOut;
 }
 // fragment function which returns half4(smaller float form)
-fragment half4 fragment_shader(constant float &color [[buffer(2)]]) {
+fragment half4 fragment_shader(VertexOut vertexIn [[ stage_in ]]) {
     // returning a color (r, g, b, a)
-    return half4(1, color, 0, 1);
+    return half4(vertexIn.color);
 }

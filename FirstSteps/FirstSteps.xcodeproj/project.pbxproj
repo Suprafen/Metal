@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E20467A12BA2D4F8007DB7EA /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = E20467A02BA2D4F8007DB7EA /* Types.swift */; };
 		E2AF90912B9C559800BB85B1 /* Shader.metal in Sources */ = {isa = PBXBuildFile; fileRef = E2AF90902B9C559800BB85B1 /* Shader.metal */; };
 		E2AF90AD2B9EE30400BB85B1 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AF90AC2B9EE30400BB85B1 /* Node.swift */; };
 		E2AF90AF2B9EE3AF00BB85B1 /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2AF90AE2B9EE3AF00BB85B1 /* Plane.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E20467A02BA2D4F8007DB7EA /* Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
 		E2AF90902B9C559800BB85B1 /* Shader.metal */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.metal; path = Shader.metal; sourceTree = "<group>"; };
 		E2AF90AC2B9EE30400BB85B1 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		E2AF90AE2B9EE3AF00BB85B1 /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 				E2C1B4932B948FAF00C41BA3 /* AppDelegate.swift */,
 				E2C1B4952B948FAF00C41BA3 /* SceneDelegate.swift */,
 				E2C1B4972B948FAF00C41BA3 /* ViewController.swift */,
+				E20467A02BA2D4F8007DB7EA /* Types.swift */,
 				E2C1B4A72B94E1F300C41BA3 /* Renderer.swift */,
 				E2AF90902B9C559800BB85B1 /* Shader.metal */,
 				E2C1B49C2B948FB100C41BA3 /* Assets.xcassets */,
@@ -171,6 +174,7 @@
 				E2C1B4A82B94E1F300C41BA3 /* Renderer.swift in Sources */,
 				E2C1B4982B948FAF00C41BA3 /* ViewController.swift in Sources */,
 				E2C1B4942B948FAF00C41BA3 /* AppDelegate.swift in Sources */,
+				E20467A12BA2D4F8007DB7EA /* Types.swift in Sources */,
 				E2AF90B32B9EE65400BB85B1 /* GameScene.swift in Sources */,
 				E2AF90AD2B9EE30400BB85B1 /* Node.swift in Sources */,
 				E2AF90B12B9EE5E900BB85B1 /* Scene.swift in Sources */,

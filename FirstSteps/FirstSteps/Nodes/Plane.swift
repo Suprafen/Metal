@@ -8,11 +8,16 @@
 import MetalKit
 
 class Plane: Node {
-    var vertices: [Float] = [
-         -1,  1, 0, // v0
-         -1, -1, 0, // v1
-          1, -1, 0, // v2
-          1,  1, 0, // v3
+    var vertices: [Vertex] = [
+        Vertex(position: SIMD3<Float>(-1, 1, 0),  // V0
+               color: SIMD4<Float>(1, 0, 0, 1)),
+        Vertex(position: SIMD3<Float>(-1, -1, 0), // V1
+               color: SIMD4<Float>(0, 1, 0, 1)),
+        Vertex(position: SIMD3<Float>(1, -1, 0),  // V2
+               color: SIMD4<Float>(0, 0, 1, 1)),
+        Vertex(position: SIMD3<Float>(1, 1, 0),   // V3
+               color: SIMD4<Float>(1, 0, 1, 1)),
+
     ]
     
     var indices: [UInt16] = [
@@ -39,7 +44,7 @@ class Plane: Node {
         
     private func buildBuffers(device: MTLDevice) {
         vertextBuffer = device.makeBuffer(bytes: vertices,
-                                          length: vertices.count * MemoryLayout<Float>.size,
+                                          length: vertices.count * MemoryLayout<Vertex>.stride,
                                           options: [])
         
         indexBuffer = device.makeBuffer(bytes: indices,
@@ -61,10 +66,6 @@ class Plane: Node {
         commandEncoder.setVertexBytes(&constants,
                                       length: MemoryLayout<Constants>.stride,
                                       index: 1)
-        // === Out of scope of the course !
-        var green = animatedBy
-        commandEncoder.setFragmentBytes(&green, length: MemoryLayout<Float>.stride, index: 2)
-        // ===
         
         commandEncoder.drawIndexedPrimitives(type: .triangle,
                                              indexCount: indices.count,
