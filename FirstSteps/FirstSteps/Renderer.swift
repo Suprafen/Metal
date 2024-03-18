@@ -25,9 +25,6 @@ class Renderer: NSObject {
         2, 3, 0
     ]
     
-    var vertexBuffer: MTLBuffer?
-    var indexBuffer: MTLBuffer?
-    
     struct Constants {
         var animatedBy: Float = 0.0
     }
