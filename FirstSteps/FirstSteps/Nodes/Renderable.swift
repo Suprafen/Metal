@@ -17,7 +17,7 @@ protocol Renderable {
 extension Renderable {
     // The default method for every Renderable object
     // It take vertex descriptor and vertex and fragment functions
-    // !!! -  Each Renderable object will be able to have different vertex and gragment
+    // !!! -  Each Renderable object will be able to have different vertex and fragment
     // functions and different vertex descriptors.
     func buildPipelineState(device: MTLDevice) -> MTLRenderPipelineState {
         let library = device.makeDefaultLibrary()

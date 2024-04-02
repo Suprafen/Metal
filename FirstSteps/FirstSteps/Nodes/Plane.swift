@@ -10,14 +10,20 @@ import MetalKit
 class Plane: Node, Renderable {
     var vertices: [Vertex] = [
         Vertex(position: SIMD3<Float>(-1, 1, 0),  // V0
-               color: SIMD4<Float>(1, 0, 0, 1)),
+               color: SIMD4<Float>(1, 0, 0, 1), 
+               texture: SIMD2<Float>(0,1)),
+        
         Vertex(position: SIMD3<Float>(-1, -1, 0), // V1
-               color: SIMD4<Float>(0, 1, 0, 1)),
+               color: SIMD4<Float>(0, 1, 0, 1),
+               texture: SIMD2<Float>(0,0)),
+        
         Vertex(position: SIMD3<Float>(1, -1, 0),  // V2
-               color: SIMD4<Float>(0, 0, 1, 1)),
+               color: SIMD4<Float>(0, 0, 1, 1), 
+               texture: SIMD2<Float>(1,0)),
+        
         Vertex(position: SIMD3<Float>(1, 1, 0),   // V3
-               color: SIMD4<Float>(1, 0, 1, 1)),
-
+               color: SIMD4<Float>(1, 0, 1, 1), 
+               texture: SIMD2<Float>(1,1)),
     ]
     
     var indices: [UInt16] = [
@@ -36,6 +42,8 @@ class Plane: Node, Renderable {
     
     var time: Float = 0.0
     
+    var texture: MTLTexture?
+    
     var vertexDescriptor: MTLVertexDescriptor {
         let vertexDescriptor = MTLVertexDescriptor()
         // Describe a position data
@@ -45,9 +53,15 @@ class Plane: Node, Renderable {
         // Describe a color attribute
         vertexDescriptor.attributes[1].format = .float4
         // The offset is SIMD3<Float> i.e. float3 from the begining
-        // This was the side of the position attribute
+        // This was the size of the position attribute
         vertexDescriptor.attributes[1].offset = MemoryLayout<SIMD3<Float>>.stride
         vertexDescriptor.attributes[1].bufferIndex = 0
+        
+        vertexDescriptor.attributes[2].format = .float2
+        // Texture attribute is offset by the size of the two entries
+        vertexDescriptor.attributes[2].offset = MemoryLayout<SIMD3<Float>>.stride + MemoryLayout<SIMD4<Float>>.stride
+        vertexDescriptor.attributes[2].bufferIndex = 0
+        
         // Tell the vertex descriptor the size information held for each vertex
         vertexDescriptor.layouts[0].stride = MemoryLayout<Vertex>.stride
         
@@ -59,7 +73,18 @@ class Plane: Node, Renderable {
         buildBuffers(device: device)
         pipelineState = buildPipelineState(device: device)
     }
+       
+    init(device: MTLDevice, imageName: String) {
+        super.init()
+        if let texture = setTexture(device: device, imageName: imageName) {
+            self.texture = texture
+            fragmentFunctionName = "textured_fragment"
+        }
         
+        buildBuffers(device: device)
+        pipelineState = buildPipelineState(device: device)
+    }
+    
     private func buildBuffers(device: MTLDevice) {
         vertexBuffer = device.makeBuffer(bytes: vertices,
                                           length: vertices.count * MemoryLayout<Vertex>.stride,
@@ -86,6 +111,8 @@ class Plane: Node, Renderable {
                                       length: MemoryLayout<Constants>.stride,
                                       index: 1)
         
+        commandEncoder.setFragmentTexture(texture, index: 0)
+        
         commandEncoder.drawIndexedPrimitives(type: .triangle,
                                              indexCount: indices.count,
                                              indexType: .uint16,
@@ -98,4 +125,8 @@ extension Plane {
     struct Constants {
         var animatedBy: Float = 0.0
     }
+}
+
+extension Plane: Texturable {
+    
 }
